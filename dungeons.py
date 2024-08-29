@@ -5,7 +5,7 @@ def generate_dungeon():
     dungeon_types = ['cave', 'ancient ruins', 'haunted castle', 'underground labyrinth']
     dungeon_type = random.choice(dungeon_types)
     
-    prompt = f"Describe a {dungeon_type} dungeon for a D&D adventure."
+    prompt = f"Briefly escribe a {dungeon_type} dungeon for a D&D adventure."
     description = LLM.complete(prompt, "ollama_llama2")
     
     return {
@@ -15,5 +15,5 @@ def generate_dungeon():
     }
 
 def describe_room():
-    prompt = "Describe a room in a dungeon for a D&D adventure."
+    prompt = "Briefly describe a room in a dungeon for a D&D adventure."
     return LLM.complete(prompt, "ollama_llama2")

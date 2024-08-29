@@ -37,7 +37,7 @@ def main():
         print(f"\n{game_state}")
         actions = get_available_actions(character, dungeon, game_state)
         print("\nChoose an action:")
-        for i, action in enumerate(actions):
+        for i, (shortcut, action) in enumerate(actions):
             print(f"{i+1}. {action.capitalize()}")
 
         while True:

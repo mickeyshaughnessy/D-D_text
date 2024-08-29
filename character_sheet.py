@@ -17,7 +17,7 @@ def create_character():
         'charisma': random.randint(8, 18)
     }
     
-    prompt = f"Create a brief backstory for a {character['race']} {character['class']} named {character['name']}."
+    prompt = f"Create a very brief backstory for a {character['race']} {character['class']} named {character['name']}."
     backstory = LLM.complete(prompt, "ollama_llama2")
     
     character['backstory'] = backstory

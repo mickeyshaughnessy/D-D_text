@@ -2,15 +2,12 @@ from LLM import LLM
 
 def get_available_actions(character, dungeon, game_state):
     prompt = f"""
-    In a D&D game:
-    - The player is {character['name']}, a {character['class']}.
-    - They are in a {dungeon['type']} dungeon.
-    - Current game state: {game_state}
+    {character['name']}, a {character['class']}, is in a {dungeon['type']} dungeon.
+    {game_state}
 
-    Based on this context, what are 3-5 appropriate actions the player could take?
-    Provide the actions as a comma-separated list of single words or short phrases.
-    Include an appropriate emoji for each action.
-    Always include 'quit' as an option with a 🚪 emoji.
+    Suggest 3-5 simple actions. 
+    Format: action (emoji), action (emoji), ... 
+    Include 'quit (🚪)' 
     """
     
     response = LLM.complete(prompt, "ollama_llama2")
@@ -18,19 +15,21 @@ def get_available_actions(character, dungeon, game_state):
     
     # Ensure 'quit' is always an option
     if not any('quit' in action.lower() for action in actions):
-        actions.append('🚪 quit')
+        actions.append('quit (🚪)')
     
-    # Add single-letter shortcuts
-    actions_with_shortcuts = []
+    # Add letters and format for display
+    actions_with_letters = []
+    letters = ['A', 'B', 'C', 'D', 'E']  # Adjust as needed
     for i, action in enumerate(actions):
-        shortcut = action.split()[1][0].lower() if len(action.split()) > 1 else action[0].lower()
-        actions_with_shortcuts.append((shortcut, action))
-    
-    return actions_with_shortcuts
+        letter = letters[i]
+        actions_with_letters.append(f"{letter}) {action}")
+
+    return actions_with_letters
+
 
 def perform_action(action, character, dungeon):
-    prompt = f"The {character['class']} {character['name']} is attempting to {action} in a {dungeon['type']} dungeon. Describe what happens."
+    prompt = f"{character['name']}, the {character['class']}, {action} in the {dungeon['type']} dungeon. What happens?"
     return LLM.complete(prompt, "ollama_llama2")
 
 def quit_game(character, dungeon):
-    return "You decide to end your adventure and return home. 🏠"
+    return "You decide to end your adventure and return home. 🏠" 
